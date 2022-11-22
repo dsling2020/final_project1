@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp( const MyApp());
+
+
+class FoodList extends StatefulWidget {
+  @override
+  _FoodListState createState() => _FoodListState();
+}
+
+class _FoodListState extends State<FoodList> {
+  int _quantity = 0;
+  double _totalPrice = 0.0;
+
+  List<String> _foodItems = [
+    "Hamburger",
+    "Pizza",
+    "Taco",
+    "Sandwich",
+    "Salad",
+  ];
+
+  List<double> _foodPrices = [
+    4.99,
+    10.99,
+    2.99,
+    8.99,
+    7.99,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Food List"),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: ListView.builder(
+                itemCount: _foodItems.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(_foodItems[index]),
+                    trailing: Checkbox(
+                        value: _quantity > 0,
+                        onChanged: (bool newValue) {
+                          setState(() {
+                            if (newValue) {
+                              _quantity++;
+                              _totalPrice += _foodPrices[index];
+                            } else {
+                              _quantity--;
+                              _totalPrice -= _foodPrices[index];
+                            }
+                          });
+                        }),
+                  );
+                },
+              ),
+            ),
+            Row(
+              children: <Widget>[
+                Text("Quantity: $_quantity"),
+                Spacer(),
+                Text("Total Price: $$_totalPrice"),
+              ],
+            ),
+            RaisedButton(
+              child: Text("Submit"),
+              onPressed: () {},
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
